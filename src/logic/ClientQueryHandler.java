@@ -9,9 +9,13 @@ import java.net.Socket;
  */
 public class ClientQueryHandler extends Thread {
     private Socket socket;
+    private Main main;
+    private PrintWriter writer;
+    private BufferedReader reader;
 
-    public ClientQueryHandler(Socket socket) {
+    public ClientQueryHandler(Socket socket, Main main) {
         this.socket = socket;
+        this.main = main;
     }
 
     @Override
@@ -19,15 +23,21 @@ public class ClientQueryHandler extends Thread {
         try {
             OutputStream outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();
-            PrintWriter writer = new PrintWriter(outputStream, true);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            writer = new PrintWriter(outputStream, true);
+            reader = new BufferedReader(new InputStreamReader(inputStream));
             writer.println("Hello, World!");
             String name = reader.readLine();
             writer.println("Hello, " + name + "!!!");
-            writer.close();
-            reader.close();
+            while (true) {
+                String line = reader.readLine();
+                main.send(line);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public synchronized void send(String line) {
+        writer.println(">>> " + line);
     }
 }
