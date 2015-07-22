@@ -5,6 +5,7 @@ import java.net.Socket;
 
 /**
  * Created by Yevhen on 22.07.2015.
+ * Поток обработки действий клиента
  */
 public class ClientQueryHandler extends Thread {
     private Socket socket;

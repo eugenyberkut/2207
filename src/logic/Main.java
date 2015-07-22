@@ -1,11 +1,11 @@
 package logic;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 
 /**
  * Created by Yevhen on 22.07.2015.
+ * Пример серверной программы
  */
 public class Main {
     public static void main(String[] args) {
